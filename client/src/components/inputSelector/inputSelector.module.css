@@ -1,0 +1,75 @@
+.inputSelector {
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+    border: none;
+    outline: none;
+    color: var(--fg-main);
+    background-color: var(--bg-secondary);
+    transition: 200ms ease-in-out;
+
+    &:disabled {
+        cursor: not-allowed;
+        color: var(--fg-dark);
+    }
+
+    &:focus {
+        background-color: var(--bg-light);
+    }
+
+    /*> div {*/
+    /*    height: 100%;*/
+    /*    display: flex;*/
+    /*    align-items: center;*/
+    /*    gap: 0.5rem;*/
+    /*}*/
+
+    /*.statusLabel {*/
+    /*    color: var(--fg-dark);*/
+    /*}*/
+
+    /*.statusConnected {*/
+    /*    color: var(--fg-success);*/
+    /*}*/
+
+    /*.statusDisconnected {*/
+    /*    color: var(--fg-error);*/
+    /*}*/
+
+    /*input {*/
+    /*    padding: 0.2rem;*/
+    /*    border-radius: 0.2rem;*/
+    /*    border: none;*/
+    /*    outline: none;*/
+    /*    color: var(--fg-main);*/
+    /*    background-color: var(--bg-secondary);*/
+    /*    transition: 200ms ease-in-out;*/
+
+    /*    &:disabled {*/
+    /*        cursor: not-allowed;*/
+    /*        color: var(--fg-dark);*/
+    /*    }*/
+
+    /*    &:focus {*/
+    /*        background-color: var(--bg-light);*/
+    /*    }*/
+    /*}*/
+
+    /*button {*/
+    /*    position: relative;*/
+    /*    padding: 0.2rem;*/
+    /*    border-radius: 0.2rem;*/
+    /*    border: none;*/
+    /*    outline: none;*/
+    /*    color: var(--fg-secondary);*/
+    /*    background-color: var(--bg-light);*/
+    /*    transition: 200ms ease-in-out;*/
+
+    /*    &:disabled {*/
+    /*        color: var(--fg-dark);*/
+    /*    }*/
+
+    /*    &:hover {*/
+    /*        background-color: var(--bg-secondary);*/
+    /*    }*/
+    /*}*/
+}

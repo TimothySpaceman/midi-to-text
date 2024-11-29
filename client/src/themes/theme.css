@@ -1,0 +1,14 @@
+:root {
+    --bg-main: #1E1E1E;
+    --bg-secondary: #232323;
+    --bg-light: #2E2E2E;
+    --bg-dark: #151515;
+    --bg-blocked: #101010;
+
+    --fg-main: #E0E0E0;
+    --fg-secondary: #C0C0C0;
+    --fg-light: #FDFDFD;
+    --fg-dark: #A0A0A0;
+    --fg-success: #52BF90;
+    --fg-error: #FA5F55;
+}

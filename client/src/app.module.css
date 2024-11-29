@@ -1,0 +1,25 @@
+.main {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: var(--bg-dark);
+    /*border: 4px solid red;*/
+}
+.main::-webkit-scrollbar {
+    position: absolute;
+    /*width: 10px;*/
+    /*height: 10px;*/
+}
+.main::-webkit-scrollbar-thumb {
+    border-radius: 0.2rem;
+    background-color: rgba(255,255,255,0.5);
+}
+
+.controlPanel {
+    padding: 0.5rem;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-wrap: wrap;
+}
