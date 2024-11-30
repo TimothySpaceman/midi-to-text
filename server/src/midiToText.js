@@ -1,135 +1,9 @@
 import * as em from "easymidi";
+import ks from "node-key-sender";
+import {codeToNote} from "./utils.js";
+import {prepareConfig, qwertyConfig} from "./configs.js";
 
-const codeToNote = {
-    "0": "C-2",
-    "1": "C#-2",
-    "2": "D-2",
-    "3": "D#-2",
-    "4": "E-2",
-    "5": "F-2",
-    "6": "F#-2",
-    "7": "G-2",
-    "8": "G#-2",
-    "9": "A-1",
-    "10": "A#-1",
-    "11": "B-1",
-    "12": "C-1",
-    "13": "C#-1",
-    "14": "D-1",
-    "15": "D#-1",
-    "16": "E-1",
-    "17": "F-1",
-    "18": "F#-1",
-    "19": "G-1",
-    "20": "G#-1",
-    "21": "A0",
-    "22": "A#0",
-    "23": "B0",
-    "24": "C1",
-    "25": "C#1",
-    "26": "D1",
-    "27": "D#1",
-    "28": "E1",
-    "29": "F1",
-    "30": "F#1",
-    "31": "G1",
-    "32": "G#1",
-    "33": "A1",
-    "34": "A#1",
-    "35": "B1",
-    "36": "C2",
-    "37": "C#2",
-    "38": "D2",
-    "39": "D#2",
-    "40": "E2",
-    "41": "F2",
-    "42": "F#2",
-    "43": "G2",
-    "44": "G#2",
-    "45": "A2",
-    "46": "A#2",
-    "47": "B2",
-    "48": "C3",
-    "49": "C#3",
-    "50": "D3",
-    "51": "D#3",
-    "52": "E3",
-    "53": "F3",
-    "54": "F#3",
-    "55": "G3",
-    "56": "G#3",
-    "57": "A3",
-    "58": "A#3",
-    "59": "B3",
-    "60": "C4",
-    "61": "C#4",
-    "62": "D4",
-    "63": "D#4",
-    "64": "E4",
-    "65": "F4",
-    "66": "F#4",
-    "67": "G4",
-    "68": "G#4",
-    "69": "A4",
-    "70": "A#4",
-    "71": "B4",
-    "72": "C5",
-    "73": "C#5",
-    "74": "D5",
-    "75": "D#5",
-    "76": "E5",
-    "77": "F5",
-    "78": "F#5",
-    "79": "G5",
-    "80": "G#5",
-    "81": "A5",
-    "82": "A#5",
-    "83": "B5",
-    "84": "C6",
-    "85": "C#6",
-    "86": "D6",
-    "87": "D#6",
-    "88": "E6",
-    "89": "F6",
-    "90": "F#6",
-    "91": "G6",
-    "92": "G#6",
-    "93": "A6",
-    "94": "A#6",
-    "95": "B6",
-    "96": "C7",
-    "97": "C#7",
-    "98": "D7",
-    "99": "D#7",
-    "100": "E7",
-    "101": "F7",
-    "102": "F#7",
-    "103": "G7",
-    "104": "G#7",
-    "105": "A7",
-    "106": "A#7",
-    "107": "B7",
-    "108": "C8",
-    "109": "C#8",
-    "110": "D8",
-    "111": "D#8",
-    "112": "E8",
-    "113": "F8",
-    "114": "F#8",
-    "115": "G8",
-    "116": "G#8",
-    "117": "A8",
-    "118": "A#8",
-    "119": "B8",
-    "120": "C9",
-    "121": "C#9",
-    "122": "D9",
-    "123": "D#9",
-    "124": "E9",
-    "125": "F9",
-    "126": "F#9",
-    "127": "G9"
-}
+
 
 export class MidiToText {
     mi
@@ -137,41 +11,42 @@ export class MidiToText {
     pressedNotes
     controls
     pitch
+    config
+
+    #readingInputListeners = [
+        {
+            event: "noteon", callback: (e) => {
+                this.pressedNotes.add(codeToNote[e.note]);
+                this.processNoteInput(e)
+            }
+        },
+        {
+            event: "noteoff", callback: (e) => this.pressedNotes.delete(codeToNote[e.note])
+        },
+        {
+            event: "cc", callback: (e) => this.controls[e.controller] = e.value
+        },
+        {
+            event: "pitch", callback: (e) => this.pitch = e.value
+        }
+    ]
 
     constructor() {
-        this.pitch = 8192
+        this.pitch = 0
         this.pressedNotes = new Set();
         this.controls = {}
 
-        this.listeners = [
-            {
-                event: "noteon", callback: (e) => {
-                    this.pressedNotes.add(codeToNote[e.note])
-                    console.log("Notes", this.pressedNotes)
-                }
-            },
-            {
-                event: "noteoff", callback: (e) => {
-                    this.pressedNotes.delete(codeToNote[e.note])
-                    console.log("Notes", this.pressedNotes)
-                }
-            },
-            {
-                event: "cc", callback: (e) => {
-                    this.controls[e.controller] = e.value
-                    console.log("Controls", this.controls)
-                }
-            },
-            {
-                event: "pitch", callback: (e) => {
-                    this.pitch = e.value
-                    console.log("Pitch", this.pitch)
-                }
-            }
-        ];
+        this.setConfig(qwertyConfig)
+
+        this.listeners = [...this.#readingInputListeners];
+    }
+
+    setConfig(config){
+        this.config = prepareConfig(config)
     }
 
     setInput(inputName) {
+        this.mi?.close();
         this.mi = new em.Input(inputName);
         this.initListeners();
         console.log(`MIDI Input set: ${inputName}`)
@@ -183,11 +58,43 @@ export class MidiToText {
 
     initListeners() {
         this.listeners?.forEach(l => {
-            this.mi?.on(l.event, l.callback)
+            this.mi?.on(l.event, (e) => {
+                try {
+                    l.callback(e)
+                } catch (err) {
+                    console.log(err)
+                }
+            })
         })
     }
 
+    processNoteInput(e){
+        let mappings = this.config.noteToKey.filter(m => m.note === codeToNote[e.note])
+        mappingLoop: for(const mapping of mappings) {
+            for(const [control, value] of Object.entries(mapping.required.controls)){
+                if(this.controls[control] !== value){
+                    continue mappingLoop;
+                }
+            }
+            for(const note of mapping.required.notes){
+                if(!this.pressedNotes.includes(note)){
+                    continue mappingLoop;
+                }
+            }
+            // ks.sendLetter(mapping.key)
+            return;
+        }
+    }
 
+    getInputState(){
+        return {
+            pressedNotes: Array.from(this.pressedNotes),
+            controls: this.controls,
+            pitch: this.pitch
+        }
+    }
 }
 
 export const midiToText = new MidiToText();
+
+// abcdefg

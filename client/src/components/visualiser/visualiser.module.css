@@ -1,0 +1,134 @@
+.visualiser {
+    width: min-content;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+
+    .changed {
+        animation: highlightChanged 0.5s ease-in-out;
+    }
+
+    .tweaks {
+        min-width: 15rem;
+        padding: 0.3rem;
+        border-radius: 0.3rem 0 0.3rem 0.3rem;
+        background-color: var(--bg-secondary);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem 1rem;
+
+        > div {
+            font-size: 0.7rem;
+            color: var(--fg-dark);
+
+            > label {
+                cursor: pointer;
+                color: var(--fg-error);
+                user-select: none;
+
+                &:has(>input:checked) {
+                    color: var(--fg-success);
+                }
+
+                > input {
+                    display: none;
+                }
+            }
+
+            > input {
+                width: 3rem;
+                padding: 0 0.2rem;
+                border-radius: 0.2rem;
+                border: none;
+                outline: none;
+                color: var(--fg-main);
+                background-color: var(--bg-secondary);
+                transition: 200ms ease-in-out;
+
+                &:disabled {
+                    cursor: not-allowed;
+                    color: var(--fg-dark);
+                }
+
+                &:focus {
+                    background-color: var(--bg-light);
+                }
+            }
+        }
+    }
+
+    .controls {
+        min-width: 20rem;
+        font-size: 0.7rem;
+        color: var(--fg-dark);
+
+        > div {
+            display: flex;
+            flex-wrap: wrap;
+
+            .control {
+                width: clamp(3rem, calc(100% / 6), calc(100% / 2));
+                /*background-color: red;*/
+                color: var(--fg-main);
+
+                .controlName {
+                    color: var(--fg-secondary)
+                }
+            }
+        }
+    }
+
+    .pressedNotes, .pitch {
+        font-size: 0.7rem;
+        color: var(--fg-main);
+
+        > span:first-of-type {
+            color: var(--fg-dark)
+        }
+    }
+}
+
+.tweaksButton {
+    position: relative;
+    padding: 0 0.1rem;
+    border-radius: 0.2rem;
+    font-size: 0.8rem;
+    color: var(--fg-secondary);
+    user-select: none;
+    transition: 200ms ease-in-out;
+
+    input {
+        display: none;
+    }
+
+    &:has(input:checked){
+        border-radius: 0.2rem 0.2rem 0 0;
+        background-color: var(--bg-secondary);
+        align-self: stretch;
+
+        &::before{
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 100%;
+            width: 0.4rem;
+            height: 0.4rem;
+            overflow: hidden;
+            /*background-color: red;*/
+            border-bottom-right-radius: 0.2rem;
+            box-shadow: 0 0.2rem 0 0 var(--bg-secondary);
+        }
+    }
+
+    &:hover {
+        background-color: var(--bg-light);
+    }
+}
+
+@keyframes highlightChanged {
+    0% {
+        color: var(--visualiser-value-changed);
+    }
+    100% {
+    }
+}

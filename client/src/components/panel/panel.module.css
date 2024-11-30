@@ -5,11 +5,19 @@
     background-color: var(--bg-main);
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    box-shadow: 0 0.3rem 1rem 0 rgba(0,0,0,0.2);
+
+    .headingContainer {
+        min-height: 1.2rem;
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 1rem;
+    }
 
     .title{
         font-size: 0.8rem;
-        color: var(--fg-dark)
+        color: var(--fg-dark);
     }
 
     .content{

@@ -4,6 +4,7 @@ import {WithSocket} from "./components/sockets/socketContext.jsx";
 import {Header} from "./components/header/header.jsx";
 import {InputSelector} from "./components/inputSelector/inputSelector.jsx";
 import {WithMTT} from "./components/mtt/mttContext.jsx";
+import {Visualiser} from "./components/visualiser/visualiser.jsx";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                     <Header/>
                     <div className={cls.controlPanel}>
                         <InputSelector/>
+                        <Visualiser/>
                     </div>
                 </div>
             </WithMTT>

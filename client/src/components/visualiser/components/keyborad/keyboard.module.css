@@ -1,0 +1,6 @@
+.keyboard{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: 0.05rem;
+}

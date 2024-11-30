@@ -8,7 +8,14 @@
     --fg-main: #E0E0E0;
     --fg-secondary: #C0C0C0;
     --fg-light: #FDFDFD;
-    --fg-dark: #A0A0A0;
+    --fg-dark: #909090;
     --fg-success: #52BF90;
     --fg-error: #FA5F55;
+
+    --keyboard-black: #101010;
+    --keyboard-white: #DDD;
+    --keyboard-black-pressed: #E08D1F;
+    --keyboard-white-pressed: #FFD192;
+
+    --visualiser-value-changed: #E08D1F;
 }
